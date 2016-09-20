@@ -45,4 +45,4 @@ Fregata: Machine Learning
 
 ## Contributors:
 
-Patches contributed by [great developers](https://github.com/fluent/fluentd/contributors).
+Patches contributed by [TalkingData](https://github.com/TalkingData/Fregata/contributors).
