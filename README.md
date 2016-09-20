@@ -13,6 +13,7 @@ Fregata: Machine Learning
  
 - Light weight: Fregata just use Spark's standard API,  which allows it to be integrated into most business’ data processing flow on Spark quickly and seamlessly.
 
+#### We will release soon
 
 ## Algorithms
 
