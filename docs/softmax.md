@@ -16,7 +16,7 @@ import org.apache.spark.{SparkConf, SparkContext}
 object TestSoftMax {
 
   def main(args: Array[String]) {
-    val conf = new SparkConf().setAppName("soft max").setMaster("local")
+    val conf = new SparkConf().setAppName("soft max")
     val sc = new SparkContext(conf)
     val (_,t1) = LibSvmReader.read(sc,"/Volumes/takun/libsvm/mnist2",780)
     val (_,t2) = LibSvmReader.read(sc,"/Volumes/takun/libsvm/mnist2.t",780)
