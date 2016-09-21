@@ -1,4 +1,4 @@
-AdaGreedySoftMax
+SoftMax
 =================
 > **[SoftMax](https://en.wikipedia.org/wiki/Softmax_function)** is multi-class classification algorithm , generalization of **[Logistic Regression](https://en.wikipedia.org/wiki/Logistic_function)** .
 
@@ -37,6 +37,6 @@ object TestSoftMax {
   }
 }
 
-// Accuracy = 0.9075 
-
 ```
+
+    Accuracy = 0.9075 
