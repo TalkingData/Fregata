@@ -18,9 +18,7 @@ Fregata: Machine Learning
 ## Algorithms
 
 - [AdaGreedy Logistic Regression](./)
-- [AdaGreedySoftMax](./)
-- [Logistic Regression](./)
-- [SoftMax](./)
+- [SoftMax](./docs/softmax.md)
 - [Collaborative Filtering(ALS)](./)
 - [KMeans/XMeans](./)
 
