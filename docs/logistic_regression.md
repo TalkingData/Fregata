@@ -10,7 +10,7 @@ import fregata.spark.model.classification.{LogisticRegression}
 import org.apache.spark.{SparkConf, SparkContext}
 
 /**
- * Created by takun on 16/9/20.
+ * Test LogisticRegression
  */
 object TestLogisticRegression {
 
@@ -27,7 +27,7 @@ object TestLogisticRegression {
     })
     println( s"Accuracy = $acc ")
     val auc = AreaUnderRoc.of( pd.map{
-      case a @ (p,c,l) =>
+      case (p,c,l) =>
         p -> l
     })
     println( s"AreaUnderRoc = $auc ")
