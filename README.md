@@ -17,7 +17,7 @@ Fregata: Machine Learning
 
 ## Algorithms
 
-- [Logistic Regression](./)
+- [Logistic Regression](./docs/logistic_regression.md)
 - [SoftMax](./docs/softmax.md)
 - [Collaborative Filtering(ALS)](./)
 - [KMeans/XMeans](./)
