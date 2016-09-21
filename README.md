@@ -24,7 +24,7 @@ Fregata: Machine Learning
 
 ## Quick Start
 
-```
+```xml
     <dependency>
        <groupId>fregata</groupId>
         <artifactId>core</artifactId>
