@@ -1,6 +1,6 @@
 SoftMax
 =================
-> **[SoftMax](https://en.wikipedia.org/wiki/Softmax_function)** is multi-class classification algorithm , generalization of **[Logistic Regression](https://en.wikipedia.org/wiki/Logistic_function)** .
+> **[SoftMax](https://en.wikipedia.org/wiki/Softmax_function)** is multi-class classification algorithm , generalization of **[Logistic Regression](https://en.wikipedia.org/wiki/Logistic_regression)** .
 
 
 ```scala
