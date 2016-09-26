@@ -37,9 +37,29 @@ Fregata: Machine Learning
     </dependency>
 ```
 
-## More Information
+## Roadmap
 
-- 
+- 2016-11-01 ：
+  - Version 0.1 release
+  - Publish paper on arxiv.org
+  - Algorithms: Logistic Regression, Linear Regression, Softmax, CF(Funk-SVD)
+ 
+- 2016-12-01：
+  - Version 0.2 release
+  - Use Alluxio to accelerate computing speed
+  - Algorithms: RDT, RDH, K-Means, Logistic Model Tree
+ 
+- 2017-01：
+  - Version 0.3 release
+  - Algorithms: SVM, X-Means
+
+- 2017-02：
+  - Version 0.4 release
+  - Support Spark 2.x and DataFrame API.
+ 
+- 2017-03：
+  - Version 0.4 release
+  - Algorithm: on-line Logistic Regression, Linear Regression, Softmax
 
 
 ## Contributors:
