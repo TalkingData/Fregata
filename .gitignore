@@ -1,0 +1,11 @@
+.classpath
+.idea/
+.settings
+.project/
+target/
+.cache
+*.iml
+lib_managed/
+bin/
+project/
+

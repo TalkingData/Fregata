@@ -3,51 +3,189 @@ Fregata: Machine Learning
 
 [![GitHub license](./img/apache2.svg)](./LICENSE)
 
-- [Fregata](http://talkingdata.com) is a light weight, super fast, large scale machine learning library on Spark.
- 
-- More accurate: For varied problems, Fregata can achieve more accurate results compared to MLLib.
- 
-- High speed: For General Linear Model, Fregata often converges in one data epcho. For a 1 billion X 1 billion data set, Fregata can train a General Linear Model in 1 minute or 10 minutes with or without memory caching respectively. Usually, Fregata is 10-100 times faster than MLLib.
- 
-- Parameter Free: Fregata has optimized SGD solver, which dosen't need to tune lerarning rate, because we found out a way to calculate appropriate learning rate in the training process. When confronted with super large-scale-dimension problem, Fregata calculates remaining memory dynamically to determine the sparseness of the output, balancing accuracy and efficiency automatically. Both features enable Fregata to be treated as a standard module in data processing for different problems.
- 
-- Light weight: Fregata just use Spark's standard API,  which allows it to be integrated into most business’ data processing flow on Spark quickly and seamlessly.
+- [Fregata](http://talkingdata.com) is a light weight, super fast, large scale machine learning library based on [Apache Spark](http://spark.apache.org/), and it provides high-level APIs in Scala. 
 
-#### We will release soon
+- More accurate: For various problems, Fregata can achieve higher accuracy compared to MLLib.
+ 
+- Higher speed: For Generalized Linear Model, Fregata often converges in one data epoch. For a 1 billion X 1 billion data set, Fregata can train a Generalized Linear Model in 1 minute with memory caching or 10 minutes with out it. Usually, Fregata is 10-100 times faster than MLLib.
+ 
+- Parameter Free: Fregata uses [GSA](http://arxiv.org/abs/1611.03608) SGD optimization, which dosen't require learning rate tuning, because we found a way to calculate appropriate learning rate in the training process. When confronted with super high-dimension problem, Fregata calculates remaining memory dynamically to determine the sparseness of the output, balancing accuracy and efficiency automatically. Both features enable Fregata to be treated as a standard module in data processing for different problems.
+ 
+- Lighter weight: Fregata just uses Spark's standard API,  which allows it to be integrated into most business’ data processing flow on Spark quickly and seamlessly.
+
+##Architecture
+This documentation is about Fregata version 0.1
+
+- core.jar: mainly implements stand-alone algorithms based on GSA, including  **Classification** <font color=#808080> **Regression**</font> and <font color=#808080>  **Clustering** </font>
+  - Classification: supports both binary and multiple classification
+  - Regression: will release later
+  - Clustering: will release later
+- spark.jar: mainly implements large scale machine learning algorithms based on **spark** by wrapping **core.jar** and supplies the corresponding algorithms
+
 
 ## Algorithms
 
 - [Logistic Regression](./docs/logistic_regression.md)
+- [Combine Freatures Logistic Regression](./docs/clr.md)
 - [SoftMax](./docs/softmax.md)
-- [Collaborative Filtering(ALS)](./)
-- [KMeans/XMeans](./)
 
-## Quick Start
+##Downloading
+Two ways to get Fregata by Maven or SBT
+
+- Maven's pom.xml
 
 ```xml
     <dependency>
        <groupId>fregata</groupId>
         <artifactId>core</artifactId>
-        <version>0.0.1</version>
+        <version>0.1</version>
     </dependency>
     <dependency>
         <groupId>fregata</groupId>
         <artifactId>spark</artifactId>
-        <version>0.0.1</version>
+        <version>0.1</version>
     </dependency>
 ```
+
+- SBT's build.sbt
+
+```
+    libraryDependencies += "fregata" %% "core" % "0.1"
+    libraryDependencies += "fregata" %% "spark" % "0.1"
+```
+
+## Quick Start
+Suppose that you're familiar with Spark, the example below shows how to use Fregata's **Logistic Regression**, and experimental datas can be obtained on [LIBSVM Data](https://www.csie.ntu.edu.tw/~cjlin/libsvmtools/datasets/)
+
+- adding Fregata into project by Maven or SBT referring to the **Downloading** part
+- importing packages
+
+```
+	import fregata.spark.data.LibSvmReader
+	import fregata.spark.metrics.classification.{AreaUnderRoc, Accuracy}
+	import fregata.spark.model.classification.LogisticRegression
+	import org.apache.spark.{SparkConf, SparkContext}
+```
+
+- loading training datas by Fregata's LibSvmReader API
+
+```
+    val (_, trainData)  = LibSvmReader.read(sc, trainPath, numFeatures.toInt)
+    val (_, testData)  = LibSvmReader.read(sc, testPath, numFeatures.toInt)
+```
+
+- building Logsitic Regression model by trainging datas
+
+```
+    val model = LogisticRegression.run(trainData)
+```
+
+- predicting the scores of instances
+
+```
+    val pd = model.classPredict(testData)
+```
+
+- evaluating the quality of predictions of the model by auc or other metrics
+
+```
+    val auc = AreaUnderRoc.of( pd.map{
+      case ((x,l),(p,c)) =>
+        p -> l
+    })
+```
+
+## Input Data Format
+Fregata's training API needs *RDD[(fregata.Vector, fregata.Num)]*, predicting API needs the same or *RDD[fregata.Vector]* without label
+
+```
+	import breeze.linalg.{Vector => BVector , SparseVector => BSparseVector , DenseVector => BDenseVector}
+	import fregata.vector.{SparseVector => VSparseVector }
+	
+	package object fregata {
+	  type Num = Double
+	  type Vector = BVector[Num]
+	  type SparseVector = BSparseVector[Num]
+	  type SparseVector2 = VSparseVector[Num]
+	  type DenseVector = BDenseVector[Num]
+	  def zeros(n:Int) = BDenseVector.zeros[Num](n)
+	  def norm(x:Vector) = breeze.linalg.norm(x,2.0)
+	  def asNum(v:Double) : Num = v
+	}
+
+```
+
+- if the data format is LibSvm, then *Fregata's LibSvmReader.read() API* can be used directly
+
+```
+	// sc is Spark Context
+	// path is the location of input datas on HDFS
+	// numFeatures is the number of features for single instance
+	// minPartitions is the minimum number of partitions for the returned RDD pointing the input datas
+	read(sc:SparkContext, path:String, numFeatures:Int=-1, minPartition:Int=-1):(Int, RDD[(fregata.Vector, fregata.Num)])
+```
+
+- else some constructions are needed
+	
+	- Using SparseVector
+	
+	```
+		// indices is an 0-based Array and the index-th feature is not equal to zero
+		// values  is an Array storing the corresponding value of indices
+		// length  is the total features of each instance
+		// label   is the instance's label
+		
+		// input datas with label
+		sc.textFile(input).map{
+			val indicies = ...
+			val values   = ...
+			val label    = ...
+			...
+			(new SparseVector(indices, values, length).asInstanceOf[Vector], asNum(label))
+		}
+		
+		// input datas without label(just for predicting API)
+		sc.textFile(input).map{
+			val indicies = ...
+			val values   = ...
+			...
+			new SparseVector(indices, values, length).asInstanceOf[Vector]
+		}	
+	```
+	- Using DenseVector
+	
+	```
+		// datas is the value of each feature
+		// label   is the instance's label
+		
+		// input datas with label
+		sc.textFile(input).map{
+			val datas = ...
+			val label = ...
+			...
+			(new DenseVector(datas).asInstanceOf[Vector], asNum(label))
+		}
+		
+		// input datas without label(just for predicting API)
+		sc.textFile(input).map{
+			val datas = ...
+			...
+			new DenseVector(indices, values, length).asInstanceOf[Vector]
+		}	
+	```
+
 
 ## Roadmap
 
 - 2016-11-01 ：
   - Version 0.1 release
   - Publish paper on arxiv.org
-  - Algorithms: Logistic Regression, Linear Regression, Softmax, CF(Funk-SVD)
+  - Algorithms: Logistic Regression, Combine Features Logistic Regression, Softmax
  
 - 2016-12-01：
   - Version 0.2 release
   - Use Alluxio to accelerate computing speed
-  - Algorithms: RDT, RDH, K-Means, Logistic Model Tree
+  - Algorithms: RDT, RDH, K-Means, Logistic Model Tree, CF(Funk-SVD)
  
 - 2017-01：
   - Version 0.3 release
@@ -58,7 +196,7 @@ Fregata: Machine Learning
   - Support Spark 2.x and DataFrame API.
  
 - 2017-03：
-  - Version 0.4 release
+  - Version 0.5 release
   - Algorithm: on-line Logistic Regression, Linear Regression, Softmax
 
 
