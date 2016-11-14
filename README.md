@@ -1,7 +1,7 @@
 Fregata: Machine Learning
 ==================================
 
-[![GitHub license](./img/apache2.svg)](./LICENSE)
+[![GitHub license](http://og41w30k3.bkt.clouddn.com/apache2.svg)](./LICENSE)
 
 - [Fregata](http://talkingdata.com) is a light weight, super fast, large scale machine learning library based on [Apache Spark](http://spark.apache.org/), and it provides high-level APIs in Scala. 
 
@@ -16,11 +16,11 @@ Fregata: Machine Learning
 ##Architecture
 This documentation is about Fregata version 0.1
 
-- core.jar: mainly implements stand-alone algorithms based on GSA, including  **Classification** <font color=#808080> **Regression**</font> and <font color=#808080>  **Clustering** </font>
+- core : mainly implements stand-alone algorithms based on GSA, including  **Classification** <font color=#808080> **Regression**</font> and <font color=#808080>  **Clustering** </font>
   - Classification: supports both binary and multiple classification
   - Regression: will release later
   - Clustering: will release later
-- spark.jar: mainly implements large scale machine learning algorithms based on **spark** by wrapping **core.jar** and supplies the corresponding algorithms
+- spark : mainly implements large scale machine learning algorithms based on **spark** by wrapping **core.jar** and supplies the corresponding algorithms
 
 
 ## Algorithms
