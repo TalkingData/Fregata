@@ -38,20 +38,20 @@ Two ways to get Fregata by Maven or SBT
     <dependency>
        <groupId>fregata</groupId>
         <artifactId>core</artifactId>
-        <version>0.1</version>
+        <version>0.0.1</version>
     </dependency>
     <dependency>
         <groupId>fregata</groupId>
         <artifactId>spark</artifactId>
-        <version>0.1</version>
+        <version>0.0.1</version>
     </dependency>
 ```
 
 - SBT's build.sbt
 
 ```
-    libraryDependencies += "fregata" %% "core" % "0.1"
-    libraryDependencies += "fregata" %% "spark" % "0.1"
+    libraryDependencies += "fregata" % "core" % "0.0.1"
+    libraryDependencies += "fregata" % "spark" % "0.0.1"
 ```
 
 ## Quick Start
