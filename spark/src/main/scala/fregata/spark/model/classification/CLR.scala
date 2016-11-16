@@ -33,7 +33,7 @@ object CLR {
     */
   def run(data:RDD[(Array[Vector],Num)],
           combines:Array[Array[Int]],
-          localEpochNum:Int = 10 ,
+          localEpochNum:Int = 1 ,
           epochNum:Int = 1) = {
     val trainer = new LogisticRegression
     val lengths = combines.map{

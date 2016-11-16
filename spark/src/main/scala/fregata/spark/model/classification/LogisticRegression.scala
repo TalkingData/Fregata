@@ -22,7 +22,7 @@ object LogisticRegression {
     * @return
     */
   def run(data:RDD[(Vector,Num)],
-          localEpochNum:Int = 10 ,
+          localEpochNum:Int = 1 ,
           epochNum:Int = 1) = {
     val trainer = new LLogisticRegression
     new SparkTrainer(trainer)

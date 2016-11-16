@@ -34,7 +34,7 @@ object SoftMax {
     */
   def run(k:Int,
           data:RDD[(Vector,Num)],
-          localEpochNum:Int = 10 ,
+          localEpochNum:Int = 1 ,
           epochNum:Int = 1) = {
     val trainer = new LSoftMax(k)
     new SparkTrainer(trainer)
