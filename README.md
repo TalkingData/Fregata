@@ -3,14 +3,14 @@ Fregata: Machine Learning
 
 [![GitHub license](http://og41w30k3.bkt.clouddn.com/apache2.svg)](./LICENSE)
 
-- [Fregata](http://talkingdata.com) is a light weight, super fast, large scale machine learning library based on [Apache Spark](http://spark.apache.org/), and it provides high-level APIs in Scala. 
+- [Fregata](http://talkingdata.com) is a light weight, super fast, large scale machine learning library based on [Apache Spark](http://spark.apache.org/), and it provides high-level APIs in Scala.
 
 - More accurate: For various problems, Fregata can achieve higher accuracy compared to MLLib.
- 
+
 - Higher speed: For Generalized Linear Model, Fregata often converges in one data epoch. For a 1 billion X 1 billion data set, Fregata can train a Generalized Linear Model in 1 minute with memory caching or 10 minutes with out it. Usually, Fregata is 10-100 times faster than MLLib.
- 
+
 - Parameter Free: Fregata uses [GSA](http://arxiv.org/abs/1611.03608) SGD optimization, which dosen't require learning rate tuning, because we found a way to calculate appropriate learning rate in the training process. When confronted with super high-dimension problem, Fregata calculates remaining memory dynamically to determine the sparseness of the output, balancing accuracy and efficiency automatically. Both features enable Fregata to be treated as a standard module in data processing for different problems.
- 
+
 - Lighter weight: Fregata just uses Spark's standard API,  which allows it to be integrated into most business’ data processing flow on Spark quickly and seamlessly.
 
 ##Architecture
@@ -101,7 +101,7 @@ Fregata's training API needs *RDD[(fregata.Vector, fregata.Num)]*, predicting AP
 ```
 	import breeze.linalg.{Vector => BVector , SparseVector => BSparseVector , DenseVector => BDenseVector}
 	import fregata.vector.{SparseVector => VSparseVector }
-	
+
 	package object fregata {
 	  type Num = Double
 	  type Vector = BVector[Num]
@@ -126,15 +126,15 @@ Fregata's training API needs *RDD[(fregata.Vector, fregata.Num)]*, predicting AP
 ```
 
 - else some constructions are needed
-	
+
 	- Using SparseVector
-	
+
 	```
 		// indices is an 0-based Array and the index-th feature is not equal to zero
 		// values  is an Array storing the corresponding value of indices
 		// length  is the total features of each instance
 		// label   is the instance's label
-		
+
 		// input datas with label
 		sc.textFile(input).map{
 			val indicies = ...
@@ -143,21 +143,21 @@ Fregata's training API needs *RDD[(fregata.Vector, fregata.Num)]*, predicting AP
 			...
 			(new SparseVector(indices, values, length).asInstanceOf[Vector], asNum(label))
 		}
-		
+
 		// input datas without label(just for predicting API)
 		sc.textFile(input).map{
 			val indicies = ...
 			val values   = ...
 			...
 			new SparseVector(indices, values, length).asInstanceOf[Vector]
-		}	
+		}
 	```
 	- Using DenseVector
-	
+
 	```
 		// datas is the value of each feature
 		// label   is the instance's label
-		
+
 		// input datas with label
 		sc.textFile(input).map{
 			val datas = ...
@@ -165,13 +165,13 @@ Fregata's training API needs *RDD[(fregata.Vector, fregata.Num)]*, predicting AP
 			...
 			(new DenseVector(datas).asInstanceOf[Vector], asNum(label))
 		}
-		
+
 		// input datas without label(just for predicting API)
 		sc.textFile(input).map{
 			val datas = ...
 			...
 			new DenseVector(indices, values, length).asInstanceOf[Vector]
-		}	
+		}
 	```
 
 
@@ -181,12 +181,12 @@ Fregata's training API needs *RDD[(fregata.Vector, fregata.Num)]*, predicting AP
   - Version 0.1 release
   - Publish paper on arxiv.org
   - Algorithms: Logistic Regression, Combine Features Logistic Regression, Softmax
- 
+
 - 2016-12-01：
   - Version 0.2 release
   - Use Alluxio to accelerate computing speed
   - Algorithms: RDT, RDH, K-Means, Logistic Model Tree, CF(Funk-SVD)
- 
+
 - 2017-01：
   - Version 0.3 release
   - Algorithms: SVM, X-Means
@@ -194,11 +194,15 @@ Fregata's training API needs *RDD[(fregata.Vector, fregata.Num)]*, predicting AP
 - 2017-02：
   - Version 0.4 release
   - Support Spark 2.x and DataFrame API.
- 
+
 - 2017-03：
   - Version 0.5 release
   - Algorithm: on-line Logistic Regression, Linear Regression, Softmax
 
+## MailList:
+   - xiatian.zhang@tendcloud.com
+   - fan.yao@tendcloud.com
+   - yongjun.tian@tendcloud.com
 
 ## Contributors:
 
