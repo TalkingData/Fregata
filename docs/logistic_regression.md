@@ -17,7 +17,7 @@ Experiments
 > 
 > ![eplison](../img/Lookalike_Auc_Lines.png)
 
-> expriment #2 on eplison dataset, it also shows that Fregata-LR using less time but getting better auc.
+> expriment #2 on [eplison](https://www.csie.ntu.edu.tw/~cjlin/libsvmtools/datasets/binary.html#epsilon) dataset, it also shows that Fregata-LR using less time but getting better auc.
 
 > ![eplison](../img/eplison_Time_Auc.png)
 > 
@@ -25,6 +25,7 @@ Experiments
 
 Example
 ------------
+
 ```scala
 
   import fregata.spark.data.LibSvmReader
@@ -39,6 +40,7 @@ Example
   def main(args: Array[String]): Unit = {
     val conf = new SparkConf().setAppName("logistic regression")
     val sc = new SparkContext(conf)
+    // the dataset a9a can be downloaded from https://www.csie.ntu.edu.tw/~cjlin/libsvmtools/datasets/binary.html#a9a
     val (_,trainData) = LibSvmReader.read(sc,"/Volumes/takun/data/libsvm/a9a",123)
     val (_,testData) = LibSvmReader.read(sc,"/Volumes/takun/data/libsvm/a9a.t",123)
     val model = LogisticRegression.run(trainData)

@@ -38,8 +38,9 @@ object TestSoftMax {
   def main(args: Array[String]) {
     val conf = new SparkConf().setAppName("soft max")
     val sc = new SparkContext(conf)
-    val (_,t1) = LibSvmReader.read(sc,"/Volumes/takun/data/libsvm/mnist2",780)
-    val (_,t2) = LibSvmReader.read(sc,"/Volumes/takun/data/libsvm/mnist2.t",780)
+    // the mnist can be downloaded from https://www.csie.ntu.edu.tw/~cjlin/libsvmtools/datasets/multiclass.html
+    val (_,t1) = LibSvmReader.read(sc,"/Volumes/takun/data/libsvm/mnist",780)
+    val (_,t2) = LibSvmReader.read(sc,"/Volumes/takun/data/libsvm/mnist.t",780)
     val k = 10
     val train = t1.map{
       case (x,label) => x -> label //preprocessing.normalize(x) -> label

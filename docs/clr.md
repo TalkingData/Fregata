@@ -54,6 +54,7 @@ Example
   def main(args: Array[String]): Unit = {
     val conf = new SparkConf().setAppName("logistic regression")
     val sc = new SparkContext(conf)
+    // the dataset a9a can be downloaded from https://www.csie.ntu.edu.tw/~cjlin/libsvmtools/datasets/binary.html#a9a
     val (_,trainData) = LibSvmReader.read(sc,"/Volumes/takun/data/libsvm/a9a",123)
     val (_,testData) = LibSvmReader.read(sc,"/Volumes/takun/data/libsvm/a9a.t",123)
     val model = CLR.run(trainData.map{
