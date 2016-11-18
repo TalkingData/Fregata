@@ -29,8 +29,17 @@ This documentation is about Fregata version 0.1
 - [Combine Freatures Logistic Regression](./docs/clr.md)
 - [SoftMax](./docs/softmax.md)
 
-##Downloading
-Two ways to get Fregata by Maven or SBT
+##Installation
+**We will deploy the Fregata's packages to maven repository as soon as possible .You'd better manual deploy to local maven repository by now .**
+
+The way to manual deploy as follow :
+```
+git clone https://github.com/TalkingData/Fregata.git
+cd Fregata
+mvn clean package install
+```
+
+Two ways to get Fregata by Maven or SBT :
 
 - Maven's pom.xml
 
@@ -49,7 +58,9 @@ Two ways to get Fregata by Maven or SBT
 
 - SBT's build.sbt
 
-```
+```scala
+    // if you deploy to local mvn repository please add
+    // resolvers += Resolver.mavenLocal
     libraryDependencies += "fregata" % "core" % "0.0.1"
     libraryDependencies += "fregata" % "spark" % "0.0.1"
 ```
