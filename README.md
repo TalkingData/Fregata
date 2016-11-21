@@ -45,12 +45,12 @@ Two ways to get Fregata by Maven or SBT :
 
 ```xml
     <dependency>
-       <groupId>fregata</groupId>
+       <groupId>com.talkingdata.fregata</groupId>
         <artifactId>core</artifactId>
         <version>0.0.1</version>
     </dependency>
     <dependency>
-        <groupId>fregata</groupId>
+        <groupId>com.talkingdata.fregata</groupId>
         <artifactId>spark</artifactId>
         <version>0.0.1</version>
     </dependency>
@@ -61,8 +61,8 @@ Two ways to get Fregata by Maven or SBT :
 ```scala
     // if you deploy to local mvn repository please add
     // resolvers += Resolver.mavenLocal
-    libraryDependencies += "fregata" % "core" % "0.0.1"
-    libraryDependencies += "fregata" % "spark" % "0.0.1"
+    libraryDependencies += "com.talkingdata.fregata" % "core" % "0.0.1"
+    libraryDependencies += "com.talkingdata.fregata" % "spark" % "0.0.1"
 ```
 
 ## Quick Start
