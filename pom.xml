@@ -22,8 +22,8 @@
     </license>
   </licenses>
   <scm>
-    <connection>scm:git:https://github.com/TalkingData/Fregata.git/tags/0.0.1</connection>
-    <url>https://github.com/TalkingData/Fregata/tags/0.0.1</url>
+    <connection>scm:git:https://github.com/TalkingData/Fregata.git</connection>
+    <url>https://github.com/TalkingData/Fregata</url>
     <tag>HEAD</tag>
   </scm>
   <developers>
