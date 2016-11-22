@@ -11,6 +11,30 @@
     <module>core</module>
     <module>spark</module>
   </modules>
+  <name>Fregata Project Parent POM</name>
+  <description>Fregata is a light weight, super fast, large scale machine learning library based on Apache Spark .</description>
+  <url>https://github.com/TalkingData/Fregata</url>
+  <licenses>
+    <license>
+      <name>Apache 2.0 License</name>
+      <url>http://www.apache.org/licenses/LICENSE-2.0.html</url>
+      <distribution>repo</distribution>
+    </license>
+  </licenses>
+  <scm>
+    <connection>scm:git:https://github.com/TalkingData/Fregata.git/tags/0.0.1</connection>
+    <url>https://github.com/TalkingData/Fregata/tags/0.0.1</url>
+    <tag>HEAD</tag>
+  </scm>
+  <developers>
+    <developer>
+      <id>takun</id>
+      <name>Yongjun Tian</name>
+      <email>yongjun.tian@tendcloud.com</email>
+      <organization>TalkingData</organization>
+      <organizationUrl>https://www.talkingdata.com/</organizationUrl>
+    </developer>
+  </developers>
 
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -25,8 +49,6 @@
     <CodeCacheSize>512m</CodeCacheSize>
   </properties>
 
-  <name>A Camel Scala Route</name>
-  <url>http://www.myorganization.org</url>
 
   <dependencies>
 
@@ -102,17 +124,38 @@
   </dependencies>
 
   <build>
-
     <plugins>
-
+    <plugin>
+      <groupId>org.apache.maven.plugins</groupId>
+      <artifactId>maven-release-plugin</artifactId>
+      <version>2.5.3</version>
+      <configuration>
+        <autoVersionSubmodules>true</autoVersionSubmodules>
+        <useReleaseProfile>false</useReleaseProfile>
+        <releaseProfiles>release</releaseProfiles>
+        <goals>deploy</goals>
+      </configuration>
+    </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-resources-plugin</artifactId>
+        <version>2.6</version>
+        <configuration>
+          <encoding>UTF-8</encoding>
+        </configuration>
+      </plugin>
       <!-- the Maven compiler plugin will compile Java source files -->
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-source-plugin</artifactId>
-        <version>2.2.1</version>
+        <version>2.4</version>
+        <configuration>
+            <attach>true</attach>
+        </configuration>
         <executions>
           <execution>
             <id>attach-sources</id>
+            <phase>verify</phase>
             <goals>
               <goal>jar-no-fork</goal>
             </goals>
@@ -126,6 +169,7 @@
         <executions>
           <execution>
             <id>attach-javadocs</id>
+            <phase>verify</phase>
             <goals>
               <goal>jar</goal>
             </goals>
@@ -149,15 +193,6 @@
         </configuration>
       </plugin>
       <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-resources-plugin</artifactId>
-        <version>2.6</version>
-        <configuration>
-          <encoding>UTF-8</encoding>
-        </configuration>
-      </plugin>
-
-      <plugin>
         <groupId>org.codehaus.mojo</groupId>
         <artifactId>build-helper-maven-plugin</artifactId>
         <version>1.10</version>
@@ -173,8 +208,16 @@
             <goals>
               <goal>compile</goal>
               <goal>testCompile</goal>
+              <goal>add-source</goal>
             </goals>
           </execution>
+          <execution>
+              <id>attach-scaladocs</id>
+              <phase>verify</phase>
+              <goals>
+                <goal>doc-jar</goal>
+              </goals>
+            </execution>
         </executions>
         <configuration>
           <scalaVersion>${scala.version}</scalaVersion>
@@ -201,7 +244,6 @@
           </javacArgs>
         </configuration>
       </plugin>
-
       <!-- configure the eclipse plugin to generate eclipse project descriptors for a Scala project -->
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
@@ -227,16 +269,6 @@
             <sourceInclude>**/*.scala</sourceInclude>
             <sourceInclude>**/*.java</sourceInclude>
           </sourceIncludes>
-        </configuration>
-      </plugin>
-
-      <!-- allows the route to be run via 'mvn exec:java' -->
-      <plugin>
-        <groupId>org.codehaus.mojo</groupId>
-        <artifactId>exec-maven-plugin</artifactId>
-        <version>1.4.0</version>
-        <configuration>
-          <mainClass>fregata.MyRouteMain</mainClass>
         </configuration>
       </plugin>
     </plugins>
