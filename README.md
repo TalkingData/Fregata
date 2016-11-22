@@ -30,14 +30,6 @@ This documentation is about Fregata version 0.1
 - [SoftMax](./docs/softmax.md)
 
 ##Installation
-**We will deploy the Fregata's packages to maven repository as soon as possible .You'd better manual deploy to local maven repository by now .**
-
-The way to manual deploy as follow :
-```
-git clone https://github.com/TalkingData/Fregata.git
-cd Fregata
-mvn clean package install
-```
 
 Two ways to get Fregata by Maven or SBT :
 
@@ -63,6 +55,13 @@ Two ways to get Fregata by Maven or SBT :
     // resolvers += Resolver.mavenLocal
     libraryDependencies += "com.talkingdata.fregata" % "core" % "0.0.1"
     libraryDependencies += "com.talkingdata.fregata" % "spark" % "0.0.1"
+```
+
+If you want to manual deploy to local maven repository , as follow :
+```
+git clone https://github.com/TalkingData/Fregata.git
+cd Fregata
+mvn clean package install
 ```
 
 ## Quick Start
