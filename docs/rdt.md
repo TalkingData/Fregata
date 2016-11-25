@@ -2,11 +2,11 @@ RDT
 =================
 Introduction
 -----------
-> **Random Decision Trees** is a **Tree Based Ensemble** algorithm, key points of RDT is:
+> **Random Decision Trees** is a **Tree Based Ensemble** algorithm, the key points are:
 > 
 > - it can be used for Binary Classification, Multi-Class Classification and Regression(released soon)
 > - it's very suitable to deal with large scale datas with low dimension
-> - the node of each tree is selected randomly rather than calculating the metrics such as info_gain
+> - the feature of each node is selected randomly rather than calculating the metrics such as info_gain
 > - the speed is very fast because of the ranom feature selection
 > - it's only applicable for <font color=#0000ff>**Binary-Feature**</font>, so the value of each feature must be <font color=#0000ff>**0/1**</font> now
 > - the maximum depth of each tree is 64
@@ -47,9 +47,9 @@ Example
     })
 
     println(s"AreaUnderCurve : $auc ")
-    println(s"logLoss : $loss ")
+    println(s"LogLoss : $loss ")
   }
 
 ```
-	auc:0.8635148469990402
-	logLoss:0.4531350015763193
+	AreaUnderCurve : 0.8635148469990402
+	LogLoss:0.4531350015763193
