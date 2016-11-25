@@ -71,7 +71,7 @@ Suppose that you're familiar with Spark, the example below shows how to use Freg
 - adding Fregata into project by Maven or SBT referring to the **Downloading** part
 - importing packages
 
-```
+```scala
 	import fregata.spark.data.LibSvmReader
 	import fregata.spark.metrics.classification.{AreaUnderRoc, Accuracy}
 	import fregata.spark.model.classification.LogisticRegression
@@ -80,26 +80,26 @@ Suppose that you're familiar with Spark, the example below shows how to use Freg
 
 - loading training datas by Fregata's LibSvmReader API
 
-```
+```scala
     val (_, trainData)  = LibSvmReader.read(sc, trainPath, numFeatures.toInt)
     val (_, testData)  = LibSvmReader.read(sc, testPath, numFeatures.toInt)
 ```
 
 - building Logsitic Regression model by trainging datas
 
-```
+```scala
     val model = LogisticRegression.run(trainData)
 ```
 
 - predicting the scores of instances
 
-```
+```scala
     val pd = model.classPredict(testData)
 ```
 
 - evaluating the quality of predictions of the model by auc or other metrics
 
-```
+```scala
     val auc = AreaUnderRoc.of( pd.map{
       case ((x,l),(p,c)) =>
         p -> l
@@ -109,7 +109,7 @@ Suppose that you're familiar with Spark, the example below shows how to use Freg
 ## Input Data Format
 Fregata's training API needs *RDD[(fregata.Vector, fregata.Num)]*, predicting API needs the same or *RDD[fregata.Vector]* without label
 
-```
+```scala
 	import breeze.linalg.{Vector => BVector , SparseVector => BSparseVector , DenseVector => BDenseVector}
 	import fregata.vector.{SparseVector => VSparseVector }
 
@@ -128,7 +128,7 @@ Fregata's training API needs *RDD[(fregata.Vector, fregata.Num)]*, predicting AP
 
 - if the data format is LibSvm, then *Fregata's LibSvmReader.read() API* can be used directly
 
-```
+```scala
 	// sc is Spark Context
 	// path is the location of input datas on HDFS
 	// numFeatures is the number of features for single instance
@@ -140,7 +140,7 @@ Fregata's training API needs *RDD[(fregata.Vector, fregata.Num)]*, predicting AP
 
 	- Using SparseVector
 
-	```
+	```scala
 		// indices is an 0-based Array and the index-th feature is not equal to zero
 		// values  is an Array storing the corresponding value of indices
 		// length  is the total features of each instance
@@ -165,7 +165,7 @@ Fregata's training API needs *RDD[(fregata.Vector, fregata.Num)]*, predicting AP
 	```
 	- Using DenseVector
 
-	```
+	```scala
 		// datas is the value of each feature
 		// label   is the instance's label
 
@@ -211,9 +211,10 @@ Fregata's training API needs *RDD[(fregata.Vector, fregata.Num)]*, predicting AP
   - Algorithm: on-line Logistic Regression, Linear Regression, Softmax
 
 ## MailList:
+   - yongjun.tian@tendcloud.com
+   - haijun.liu@tendcloud.com
    - xiatian.zhang@tendcloud.com
    - fan.yao@tendcloud.com
-   - yongjun.tian@tendcloud.com
 
 ## Contributors:
 
