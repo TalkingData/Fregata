@@ -28,6 +28,7 @@ This documentation is about Fregata version 0.1
 - [Logistic Regression](./docs/logistic_regression.md)
 - [Combine Freatures Logistic Regression](./docs/clr.md)
 - [SoftMax](./docs/softmax.md)
+- [RDT](./docs/rdt.md)
 
 ##Installation
 

@@ -34,6 +34,14 @@
       <organization>TalkingData</organization>
       <organizationUrl>https://www.talkingdata.com/</organizationUrl>
     </developer>
+    <developer>
+      <id>hjliu</id>
+      <name>Haijun Liu</name>
+      <email>haijun.liu@tendcloud.com</email>
+      <organization>TalkingData</organization>
+      <organizationUrl>https://www.talkingdata.com/</organizationUrl>
+    </developer>
+
   </developers>
 
   <properties>
