@@ -1,10 +1,7 @@
 package fregata.spark.model.classification
 
 import fregata._
-import fregata.model.classification.{RDT => LRDT, RDTModel => LRDTModel, RDTModel, RDT}
-import fregata.model.classification.{RDT => LRDT, RDTModel => LRDTModel, RDT}
-import fregata.spark.model.classification.ClassificationModel
-import org.apache.spark.rdd.RDD
+import fregata.model.classification.{RDT => LRDT, RDTModel => LRDTModel}
 import scala.collection.mutable.{HashMap => MHashMap, ArrayBuffer}
 import org.apache.spark.rdd.RDD
 
