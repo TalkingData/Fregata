@@ -7,7 +7,7 @@ Fregata: Machine Learning
 
 - More accurate: For various problems, Fregata can achieve higher accuracy compared to MLLib.
 
-- Higher speed: For Generalized Linear Model, Fregata often converges in one data epoch. For a 1 billion X 1 billion data set, Fregata can train a Generalized Linear Model in 1 minute with memory caching or 10 minutes with out it. Usually, Fregata is 10-100 times faster than MLLib.
+- Higher speed: For Generalized Linear Model, Fregata often converges in one data epoch. For a 1 billion X 1 billion data set, Fregata can train a Generalized Linear Model in 1 minute with memory caching or 10 minutes without it. Usually, Fregata is 10-100 times faster than MLLib.
 
 - Parameter Free: Fregata uses [GSA](http://arxiv.org/abs/1611.03608) SGD optimization, which dosen't require learning rate tuning, because we found a way to calculate appropriate learning rate in the training process. When confronted with super high-dimension problem, Fregata calculates remaining memory dynamically to determine the sparseness of the output, balancing accuracy and efficiency automatically. Both features enable Fregata to be treated as a standard module in data processing for different problems.
 
