@@ -127,7 +127,7 @@ class RDT(numTrees: Int, depth: Int, numFeatures: Int, numClasses: Int = 2,
           seed: Long = 20170315l) extends Serializable {
 
   private var models = MHashMap[(Int, (Long, Byte)), Array[Int]]()
-  var hasher: Hash = new RawHash
+  var hasher: Hash = new FastHash
 
   private var trees = Array.ofDim[MHashMap[Long, Int]](numTrees)
   private var seeds = ArrayBuffer[Int]()
