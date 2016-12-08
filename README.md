@@ -22,7 +22,7 @@ This documentation is about Fregata version 0.1
   - Clustering: will release later
 - spark : mainly implements large scale machine learning algorithms based on **spark** by wrapping **core.jar** and supplies the corresponding algorithms
 
-**Fregata support spark 1.x and 2.x with scala 2.10 ,not support scala 2.11 by now .**
+**Fregata support spark 1.x and 2.x with scala 2.10 and scala 2.11 .**
 
 ## Algorithms
 
