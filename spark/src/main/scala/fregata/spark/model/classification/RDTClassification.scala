@@ -1,7 +1,7 @@
 package fregata.spark.model.classification
 
 import fregata._
-import fregata.model.classification.{RDT => LRDT, RDTModel => LRDTModel}
+import fregata.model.classification.{RDTModel => LRDTModel, RDTClassification=>LRDTClassification}
 import scala.collection.mutable.{HashMap => MHashMap, ArrayBuffer}
 import org.apache.spark.rdd.RDD
 
@@ -17,12 +17,12 @@ class RDTModel(val model: LRDTModel) extends ClassificationModel {
   }
 }
 
-class RDT(numTrees: Int, numFeatures: Int, numClasses: Int, depth: Int,
-          minLeafCapacity: Int, maxPruneNum: Int, seed:Long = 20170315l) extends Serializable {
+class RDTClassification(numTrees: Int, numFeatures: Int, numClasses: Int, depth: Int,
+                        minLeafCapacity: Int, maxPruneNum: Int, seed:Long = 20170315l) extends Serializable {
 
   def train(datas: RDD[(Vector, Num)]) = {
     val (trees, models, seeds) = datas.mapPartitions { it =>
-      val rdt = new LRDT(numTrees, depth, numFeatures, numClasses, seed)
+      val rdt = new LRDTClassification(numTrees, depth, numFeatures, numClasses, seed)
       rdt.train(it.toArray)
       rdt.prune(minLeafCapacity, maxPruneNum)
       Array[(Array[MHashMap[Long, Int]], MHashMap[(Int, (Long, Byte)), Array[Int]], ArrayBuffer[Int])](
