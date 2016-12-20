@@ -10,7 +10,7 @@ import scala.collection.mutable.ListBuffer
 /**
   * Created by takun on 2016/10/24.
   */
-class CLRModel(weights:Vector,combines:Array[Array[Int]]) extends LogisticRegressionModel(weights) {
+class CLRModel(override val weights:Vector,val combines:Array[Array[Int]]) extends LogisticRegressionModel(weights) {
 
   def predict(x:Array[Vector]) : Num = clrPredict(x)._2
 

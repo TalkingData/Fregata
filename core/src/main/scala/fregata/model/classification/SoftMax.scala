@@ -56,7 +56,7 @@ class SoftMaxGradient(ps:ParameterServer,k:Int) extends Gradient {
   }
 }
 
-class SoftMaxModel(k:Int,ws:Array[Vector]) extends ClassificationModel {
+class SoftMaxModel(k:Int,val weights:Array[Vector]) extends ClassificationModel {
 
   def this(ws:Array[Vector]) = this(ws.length,ws)
 
@@ -66,7 +66,7 @@ class SoftMaxModel(k:Int,ws:Array[Vector]) extends ClassificationModel {
     * @return
     */
   def softMaxPredict(x:Vector) : (Array[fregata.Num], Int) = {
-    SoftMaxModel.predict(ws, x)
+    SoftMaxModel.predict(weights, x)
   }
 
   def softMaxPredict(data:S[(Vector,Num)]) : S[((Vector,Num),(Array[fregata.Num], Int))] = {

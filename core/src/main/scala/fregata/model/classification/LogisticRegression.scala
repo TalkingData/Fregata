@@ -55,7 +55,7 @@ class LogisticGradient(ps:ParameterServer) extends Gradient {
   }
 }
 
-class LogisticRegressionModel(weights:Vector) extends ClassificationModel{
+class LogisticRegressionModel(val weights:Vector) extends ClassificationModel{
 
   var threshold = 0.5
   def setThreshold(t:Double) : this.type = {
