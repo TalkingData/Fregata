@@ -37,6 +37,7 @@ class LocalParameterServer extends ParameterServer {
       VectorUtil.forV(x,(i,xi) =>{
           values(k)(i) -= d * xi
       })
+      values(k)(values(k).length - 1) -= d
       k += 1
     }
   }
