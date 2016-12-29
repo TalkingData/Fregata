@@ -3,6 +3,8 @@ package fregata.spark.metrics.classification
 import org.apache.spark.rdd.RDD
 import fregata.Num
 
+import scala.util.Random
+
 /**
  * Created by takun on 16/6/1.
  */
@@ -14,7 +16,10 @@ object AreaUnderRoc {
    * @return
    */
   def of(rs2:RDD[(Num, Num)]) = {
-    val rs = rs2.sortByKey(false)
+    val rs = rs2.map{
+      case (score,clazz) =>
+        (score + Random.nextFloat()*0.00001f) -> clazz
+    }.sortByKey()
     val total = rs2.count()
     val (m,sum) = rs.zipWithIndex().map{
       case ((predict,label),rank) =>
