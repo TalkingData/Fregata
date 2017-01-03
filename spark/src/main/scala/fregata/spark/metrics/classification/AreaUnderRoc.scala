@@ -19,7 +19,7 @@ object AreaUnderRoc {
     val rs = rs2.map{
       case (score,clazz) =>
         (score + Random.nextFloat()*0.00001f) -> clazz
-    }.sortByKey()
+    }.sortByKey(false)
     val total = rs2.count()
     val (m,sum) = rs.zipWithIndex().map{
       case ((predict,label),rank) =>
