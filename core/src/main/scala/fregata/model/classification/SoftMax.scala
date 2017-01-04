@@ -39,7 +39,8 @@ class SoftMaxGradient(ps:ParameterServer,k:Int) extends Gradient {
     val lambda = i / (i+1)
     i += 1
     // compute greedy step size
-    val (probs,prob_exps,exps_sum,_) = SoftMaxModel.predictDetail(weights,x)
+    val (_ps,prob_exps,exps_sum,_) = SoftMaxModel.predictDetail(weights,x)
+    val probs = _ps.map( math.exp )
     val product = probs.zip(prob_exps).map{case (a,b) => a * b }.sum
     val yi = label.toInt
     val x2 = math.pow(norm(x),2.0)
@@ -49,7 +50,7 @@ class SoftMaxGradient(ps:ParameterServer,k:Int) extends Gradient {
     // compute update
     (0 until weights.length ).foreach { k =>
       val y = if( k == label ) asNum(1) else asNum(0)
-      val gs = loss.gradient(x,asNum(probs(k)),y)
+      val gs = loss.gradient(x,asNum(_ps(k)),y)
       update(k) = asNum(gs * stepSize)
     }
     update
