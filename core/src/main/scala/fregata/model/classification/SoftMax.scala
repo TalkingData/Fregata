@@ -39,13 +39,12 @@ class SoftMaxGradient(ps:ParameterServer,k:Int) extends Gradient {
     val lambda = i / (i+1)
     i += 1
     // compute greedy step size
-    val (_ps,prob_exps,exps_sum,_) = SoftMaxModel.predictDetail(weights,x)
-    val probs = _ps.map( math.exp )
-    val product = probs.zip(prob_exps).map{case (a,b) => a * b }.sum
+    val (_ps,_) = SoftMaxModel.predict(weights,x)
     val yi = label.toInt
     val x2 = math.pow(norm(x),2.0)
+    val pi = _ps(yi)
     // compute averaged step size
-    val greedyStep = -(prob_exps(yi) - thres * exps_sum) / ( thres * ( product - exps_sum ) - prob_exps(yi) * ( 1 - math.E / probs(yi) ) ) / x2
+    val greedyStep = ( pi - thres ) / (thres * ( 1.0 - _ps.map( p => p * math.exp(p) ).sum ) + pi - math.E * pi / math.exp(pi) ) / x2
     stepSize = lambda * stepSize + (1-lambda) * greedyStep
     // compute update
     (0 until weights.length ).foreach { k =>
@@ -96,29 +95,25 @@ class SoftMaxModel(k:Int,val weights:Array[Vector]) extends ClassificationModel 
 object SoftMaxModel {
 
   private[classification] def predict(ws:Array[Vector],x:Vector) = {
-    val (ps,_,_,clazz) = predictDetail(ws,x)
-    (ps,clazz)
-  }
-
-  private[classification] def predictDetail(ws:Array[Vector],x:Vector) = {
     var maxI = 0
     var max = Double.NegativeInfinity
     var i = 0
-    var sum = 0d
-    val mes = ws.map {
+    val margins = ws.map{
+      w => VectorUtil.wxpb(w,x,1d)
+    }
+    val ps = ws.map {
       w =>
-        val margin = VectorUtil.wxpb(w,x,1d)
-        val me = math.exp(margin)
-        if( me > max ) {
-          max = me
+        val margin = margins(i)
+        val sum = margins.map(m => math.exp( m - margin ) ).sum
+        val p = 1.0 / sum
+        if( p > max ) {
+          max = p
           maxI = i
         }
-        sum += me
         i += 1
-        me
+        p
     }
-    val ps = mes.map( v => asNum(v / sum) )
-    ( ps , mes , sum , maxI )
+    ( ps , maxI )
   }
 }
 
