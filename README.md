@@ -25,7 +25,8 @@ This documentation is about Fregata version 0.1
 **Fregata supports spark 1.x and 2.x with scala 2.10 and scala 2.11 .**
 
 ## Algorithms
-
+- [Trillion LR](./docs/largescale_lr.md)
+- [Trillion SoftMax](./docs/largescale_softmax.md)
 - [Logistic Regression](./docs/logistic_regression.md)
 - [Combine Freatures Logistic Regression](./docs/clr.md)
 - [SoftMax](./docs/softmax.md)
