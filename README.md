@@ -13,7 +13,7 @@ Fregata: Machine Learning
 
 - Lighter weight: Fregata just uses Spark's standard API,  which allows it to be integrated into most business’ data processing flow on Spark quickly and seamlessly.
 
-##Architecture
+## Architecture
 This documentation is about Fregata version 0.1
 
 - core : mainly implements stand-alone algorithms based on GSA, including  **Classification** <font color=#808080> **Regression**</font> and <font color=#808080>  **Clustering** </font>
