@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <parent>
+        <artifactId>fregata</artifactId>
+        <groupId>com.talkingdata.fregata</groupId>
+        <version>0.0.4-SNAPSHOT</version>
+    </parent>
+    <modelVersion>4.0.0</modelVersion>
+
+    <artifactId>ps</artifactId>
+
+    <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+        <java.version>1.7</java.version>
+        <scala.version>2.11.8</scala.version>
+        <scala.binary.version>2.11</scala.binary.version>
+        <PermGen>64m</PermGen>
+        <MaxPermGen>512m</MaxPermGen>
+        <CodeCacheSize>512m</CodeCacheSize>
+        <spark.version>2.0.2</spark.version>
+        <angel.version>1.2.0</angel.version>
+    </properties>
+
+
+    <dependencies>
+    <!--angel-->
+    <dependency>
+        <groupId>com.tencent.angel</groupId>
+        <artifactId>spark-on-angel-core</artifactId>
+        <version>${angel.version}</version>
+    </dependency>
+    <dependency>
+        <groupId>com.tencent.angel</groupId>
+        <artifactId>spark-on-angel-mllib</artifactId>
+        <version>${angel.version}</version>
+    </dependency>
+    <dependency>
+        <groupId>com.tencent.angel</groupId>
+        <artifactId>angel-ps-mllib</artifactId>
+        <version>${angel.version}</version>
+    </dependency>
+    <!--spark-->
+    <dependency>
+        <groupId>org.apache.spark</groupId>
+        <artifactId>spark-core_${scala.binary.version}</artifactId>
+        <version>${spark.version}</version>
+    </dependency>
+    <dependency>
+        <groupId>org.apache.spark</groupId>
+        <artifactId>spark-sql_${scala.binary.version}</artifactId>
+        <version>${spark.version}</version>
+    </dependency>
+    <dependency>
+        <groupId>org.apache.spark</groupId>
+        <artifactId>spark-mllib_${scala.binary.version}</artifactId>
+        <version>${spark.version}</version>
+    </dependency>
+    </dependencies>
+
+</project>

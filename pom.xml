@@ -10,6 +10,7 @@
   <modules>
     <module>core</module>
     <module>spark</module>
+      <module>ps</module>
   </modules>
   <name>Fregata Project Parent POM</name>
   <description>Fregata is a light weight, super fast, large scale machine learning library based on Apache Spark .</description>
@@ -38,6 +39,14 @@
       <id>hjliu</id>
       <name>Haijun Liu</name>
       <email>haijun.liu@tendcloud.com</email>
+      <organization>TalkingData</organization>
+      <organizationUrl>https://www.talkingdata.com/</organizationUrl>
+    </developer>
+
+    <developer>
+      <id>chris</id>
+      <name>Rihan Chen</name>
+      <email>rihan.chen@tendcloud.com</email>
       <organization>TalkingData</organization>
       <organizationUrl>https://www.talkingdata.com/</organizationUrl>
     </developer>
