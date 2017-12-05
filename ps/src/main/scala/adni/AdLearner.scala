@@ -55,7 +55,7 @@ class AdLearner(ctx:TaskContext, model:AdniModel,
       degVec.plusBy(rowId(i), degree(i))
     }
     trunc = degree.map{f =>
-      f * model.epslion
+      f * model.epslion * model.shrink
     }
     MMatrix(degree)
     model.mVec.increment(1, degVec)
@@ -233,7 +233,7 @@ class AdLearner(ctx:TaskContext, model:AdniModel,
     val out = new BufferedOutputStream(fs.create(tmp, 1.toShort))
     val sb = new mutable.StringBuilder()
     if(userList == null){
-      sb.append(s"Propagation Failed!")
+      sb.append(s"Propagation Failed!\n")
     } else {
       sb.append(userList.mkString("\n"))
     }
