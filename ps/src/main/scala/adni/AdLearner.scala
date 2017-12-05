@@ -232,7 +232,11 @@ class AdLearner(ctx:TaskContext, model:AdniModel,
     val tmp = HdfsUtil.toTmpPath(dest)
     val out = new BufferedOutputStream(fs.create(tmp, 1.toShort))
     val sb = new mutable.StringBuilder()
-    sb.append(userList.mkString("\t"))
+    if(userList == null){
+      sb.append(s"Propagation Failed!")
+    } else {
+      sb.append(userList.mkString("\n"))
+    }
     out.write(sb.toString().getBytes("UTF-8"))
     out.flush()
     out.close()
