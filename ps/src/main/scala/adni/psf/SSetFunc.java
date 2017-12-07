@@ -21,7 +21,9 @@ import java.util.Map;
  */
 public class SSetFunc extends GetFunc{
     private static final Log LOG = LogFactory.getLog(SSetFunc.class);
-    public SSetFunc(int matrixId) {super(new GetParam(matrixId));}
+    public SSetFunc(int matrixId) {
+        super(new GetParam(matrixId));
+    }
     public SSetFunc(){super(null);}
 
     @Override
@@ -31,11 +33,10 @@ public class SSetFunc extends GetFunc{
         pkey = PSContext.get().getMatrixPartitionManager().
                 getPartition(pkey.getMatrixId(),
                         pkey.getPartitionId()).getPartitionKey();
-
-        ServerRow mVec = PSContext.get().getMatrixPartitionManager().getRow(pkey, 0);
-        ServerRow dVec = PSContext.get().getMatrixPartitionManager().getRow(pkey, 1);
-        List<Map.Entry<Integer,Map.Entry<Float,Float>>> partResult = sVec(mVec,dVec);
-        return new ListPartitionAggrResult(partResult);
+            ServerRow mVec = PSContext.get().getMatrixPartitionManager().getRow(pkey, 0);
+            ServerRow dVec = PSContext.get().getMatrixPartitionManager().getRow(pkey, 1);
+            List<Map.Entry<Integer,Map.Entry<Float,Float>>> partResult = sVec(mVec,dVec);
+            return new ListPartitionAggrResult(partResult);
     }
 
     /**
@@ -70,7 +71,7 @@ public class SSetFunc extends GetFunc{
         List<List<Map.Entry<Integer,Map.Entry<Float,Float>>>> toMergeLists = new ArrayList<>();
 
         for(PartitionGetResult r : partResults) {
-            toMergeLists.add(((ListPartitionAggrResult) r).result);
+                toMergeLists.add(((ListPartitionAggrResult) r).result);
         }
         List<Map.Entry<Integer,Map.Entry<Float,Float>>> mergedList = util.mergeMultipleLists(toMergeLists);
         return new ListAggrResult(mergedList);

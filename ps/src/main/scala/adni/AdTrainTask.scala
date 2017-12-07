@@ -68,7 +68,7 @@ class AdTrainTask(val ctx: TaskContext) extends BaseTask[LongWritable, Text, Row
     val seeds = rowId.filter{f =>
       f >= model.s
     }
-    val learner = new AdLearner(ctx, model, data, rowId: Array[Int], seeds)
+    val learner = new AdLearner(ctx, model, data, rowId, seeds)
     learner.initialize()
     learner.train()
     if(model.save && ctx.getTaskIndex == 0) learner.saveResult()

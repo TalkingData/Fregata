@@ -16,7 +16,6 @@ class AdOperator(csrMatrix:CSRMatrix[Float],model:AdniModel) {
                result:Array[AtomicFloat],
                original:Array[Float],
                biject:Map[Int,Int]) = {
-
     csr.read(mVec)
     mVec.foreach{case(k, v) =>
         biject.get(k) match {

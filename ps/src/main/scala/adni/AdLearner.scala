@@ -2,6 +2,7 @@ package adni
 
 import java.io.BufferedOutputStream
 import java.util
+import java.util.{Collections, Random}
 import java.util.concurrent.{ExecutorService, Executors, Future, LinkedBlockingQueue}
 
 import adni.psf._
@@ -117,10 +118,10 @@ class AdLearner(ctx:TaskContext, model:AdniModel,
     val update:DenseFloatVector = new DenseFloatVector(model.V)
 
     (0 until data.numOfRows) foreach { i =>
-      if(original(i) >= 0 && result(i).get >= trunc(i)) {
+      if(result(i).get >= trunc(i)) {
         update.set(rowId(i),result(i).get - original(i))
 
-      } else if(original(i) > 0 && result(i).get < trunc(i)){
+      } else {
         update.set(rowId(i), -original(i))
       }
     }
@@ -147,32 +148,37 @@ class AdLearner(ctx:TaskContext, model:AdniModel,
       breakable {
         while (j < sVec.size()) {
           degreeSum += sVec(j).getValue.getKey
-          val cent = if (sVec(j).getKey <= model.u) 1 else 0
-          userNum += cent
+          userNum += (if (sVec(j).getKey <= model.u) 1 else 0)
           val condition1 = userNum >= model.k
           val condition2 = (degreeSum >= math.pow(2, model.b)) && (degreeSum < model.vol * 5.0 / 6)
           val condition3 = sVec(j).getValue.getValue >= (1f / model.c4) * (model.l + 2) * math.pow(2, model.b)
           qualify = condition1 && condition2 && condition3
+          j += 1
           if(qualify){
-            userList = sVec.slice(0, j + 1).flatMap{f=>
-              if(f.getKey <= model.u)
-                Some(f.getKey)
-              else
-                None
-            }
             break
-          } else {
-            j += 1
           }
         }
       }
-
-    if(epochNum == model.epoch && userList == null) {
-      userList = sVec.slice(0, model.k + 1).flatMap{f=>
+    if(qualify){
+      userList = sVec.slice(0, j).flatMap{f=>
         if(f.getKey <= model.u)
           Some(f.getKey)
         else
           None
+      }
+    }
+
+    if(epochNum == model.epoch && userList == null) {
+      userList = mutable.Buffer()
+      var count = 0
+      breakable{
+        sVec.foreach{f=>
+          if(f.getKey <= model.u && count <= model.k) {
+            userList.append(f.getKey)
+            count += 1
+          }
+          break()
+        }
       }
     }
   }
@@ -232,7 +238,7 @@ class AdLearner(ctx:TaskContext, model:AdniModel,
     val tmp = HdfsUtil.toTmpPath(dest)
     val out = new BufferedOutputStream(fs.create(tmp, 1.toShort))
     val sb = new mutable.StringBuilder()
-    if(userList == null){
+    if(userList == null || userList.isEmpty){
       sb.append(s"Propagation Failed!\n")
     } else {
       sb.append(userList.mkString("\n"))

@@ -7,7 +7,7 @@ import java.util.Map.Entry;
  * Created by chris on 11/8/17.
  */
 public class util {
-    public static <K,V extends Comparable<? super V>>
+    public static <K extends Comparable<? super K>,V extends Comparable<? super V>>
     void entriesSortedByValues(List<Entry<K,Entry<V,V>>> sortedEntries) {
 
         Collections.sort(sortedEntries,
@@ -20,7 +20,7 @@ public class util {
         );
     }
 
-    public static <K,V extends Comparable<? super V>>
+    public static <K extends Comparable<? super K>,V extends Comparable<? super V>>
     List<Entry<K,Entry<V,V>>> mergeMultipleLists(List<List<Entry<K,Entry<V,V>>>> entryLists) {
         LinkedList<List<Entry<K,Entry<V,V>>>> queue = new LinkedList<>();
         queue.addAll(entryLists);
@@ -36,7 +36,7 @@ public class util {
 
 
     // descending sort
-    public static <K,V extends Comparable<? super V>>
+    public static <K extends Comparable<? super K>,V extends Comparable<? super V>>
     List<Entry<K,Entry<V,V>>> merge(List<Entry<K,Entry<V,V>>> firstList, List<Entry<K,Entry<V,V>>> secondList) {
         List<Entry<K,Entry<V,V>>> mergedList = new ArrayList<>();
         int firstListIndex = 0;
@@ -45,6 +45,9 @@ public class util {
             Entry<K,Entry<V,V>> currentFirst = firstList.get(firstListIndex);
             Entry<K,Entry<V,V>> currentSecond = secondList.get(secondListIndex);
             if(currentFirst.getValue().getValue().compareTo(currentSecond.getValue().getValue()) > 0) {
+                mergedList.add(currentFirst);
+                firstListIndex ++;
+            } else if(currentFirst.getValue().getValue().compareTo(currentSecond.getValue().getValue()) == 0 && currentFirst.getKey().compareTo(currentSecond.getKey()) < 0 ){
                 mergedList.add(currentFirst);
                 firstListIndex ++;
             } else {
