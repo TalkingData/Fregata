@@ -56,7 +56,7 @@ class AdLearner(ctx:TaskContext, model:AdniModel,
       degVec.plusBy(rowId(i), degree(i))
     }
     trunc = degree.map{f =>
-      f * model.epslion * model.shrink
+      f * model.epslion
     }
     MMatrix(degree)
     model.mVec.increment(1, degVec)
