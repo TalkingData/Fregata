@@ -57,7 +57,7 @@ public class util {
         }
 
         while (firstListIndex <firstList.size()) {
-            Entry<K,Entry<V,V>> current = secondList.get(secondListIndex);
+            Entry<K,Entry<V,V>> current = firstList.get(firstListIndex);
             mergedList.add(current);
             firstListIndex++;
         }

@@ -2,7 +2,6 @@ package adni
 
 import java.io.BufferedOutputStream
 import java.util
-import java.util.{Collections, Random}
 import java.util.concurrent.{ExecutorService, Executors, Future, LinkedBlockingQueue}
 
 import adni.psf._
