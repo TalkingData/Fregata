@@ -27,6 +27,7 @@ object LogisticRegression {
     val trainer = new LLogisticRegression
     new SparkTrainer(trainer)
       .run(data,epochNum,localEpochNum)
-    new LogisticRegressionModel(trainer.buildModel(trainer.ps))
+    val weights = trainer.buildModel(trainer.ps)
+    (new LogisticRegressionModel(weights), weights)
   }
 }
