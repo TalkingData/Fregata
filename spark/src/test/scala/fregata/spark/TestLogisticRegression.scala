@@ -14,8 +14,8 @@ object TestLogisticRegression {
   def main(args: Array[String]): Unit = {
     val conf = new SparkConf().setAppName("logistic regression")
     val sc = new SparkContext(conf)
-    val (_,trainData) = LibSvmReader.read(sc,"/Volumes/takun/data/libsvm/a9a",123)
-    val (_,testData) = LibSvmReader.read(sc,"/Volumes/takun/data/libsvm/a9a.t",123)
+    val (_,trainData) = LibSvmReader.read(sc, args(1), Integer.parseInt(args(2)))
+    val (_,testData) = LibSvmReader.read(sc, args(3), Integer.parseInt(args(2)))
     val (model, weights) = LogisticRegression.run(trainData)
     val pd = model.classPredict(testData)
     val acc = Accuracy.of( pd.map{
