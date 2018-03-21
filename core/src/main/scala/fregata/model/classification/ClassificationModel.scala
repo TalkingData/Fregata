@@ -20,4 +20,7 @@ trait ClassificationModel extends Model {
       val (p,c) = classPredict(x)
       (a,(p,c))
   }
+
+  def saveModel(fn: String): Int = 0
+  def loadMode(fn: String): Int = 0
 }

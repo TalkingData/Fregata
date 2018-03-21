@@ -30,4 +30,5 @@ trait SparkModel extends Model {
   def predict(data:RDD[Vector]) = {
     predictPartition[Vector,Num](data,(x,model) => model.predict(x) )
   }
+
 }
