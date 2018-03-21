@@ -7,7 +7,8 @@ import fregata.optimize.sgd.{AdaptiveSGD, StochasticGradientDescent}
 import fregata.optimize.{Gradient, Target}
 import fregata.param.ParameterServer
 import fregata.util.VectorUtil
-import java.io.FileWriter
+import java.io.{FileNotFoundException, FileWriter}
+
 import scala.io.Source
 
 /**
@@ -100,13 +101,18 @@ class LogisticRegression extends ModelTrainer {
 
   override def loadModel(fn: String): Int = {
     var i = 0
+    var ret = 0
     var last_weights: Array[Num] = null
-    for (line <- Source.fromFile(fn).getLines()) {
-      if (i == 0) last_weights = new Array[Num](line.toInt)
-      else last_weights(i-1) = line.toFloat
-      i += 1
+    try {
+      for (line <- Source.fromFile(fn).getLines()) {
+        if (i == 0) last_weights = new Array[Num](line.toInt)
+        else last_weights(i-1) = line.toFloat
+        i += 1
+      }
+    } catch {
+      case _: FileNotFoundException => { ret = -1 }
     }
     if (last_weights != null) ps.set(Array.fill(1){new DenseVector(last_weights)})
-    0
+    ret
   }
 }
