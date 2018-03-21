@@ -1,11 +1,15 @@
 package fregata.model.classification
 
+//import breeze.io.TextWriter.FileWriter
 import fregata._
 import fregata.model.{Model, ModelTrainer}
 import fregata.optimize.sgd.{AdaptiveSGD, StochasticGradientDescent}
 import fregata.optimize.{Gradient, Target}
 import fregata.param.ParameterServer
 import fregata.util.VectorUtil
+import java.io.{FileNotFoundException, FileWriter}
+
+import scala.io.Source
 
 /**
   * The greedy step averaging(GSA) method, a
@@ -68,6 +72,18 @@ class LogisticRegressionModel(val weights:Vector) extends ClassificationModel{
     val c = if( p > threshold ) 1.0 else 0.0
     (asNum(p),asNum(c))
   }
+  override def saveModel(filename: String): Int = {
+    val outFile = new FileWriter(filename, false)
+    if (outFile == null) {
+      -1
+    } else {
+      outFile.write(weights.size.toString + '\n')
+      weights.toArray.foreach((x: Double) => outFile.write(x.toString + '\n'))
+      outFile.flush()
+      outFile.close()
+      0
+    }
+  }
 }
 
 class LogisticRegression extends ModelTrainer {
@@ -81,5 +97,22 @@ class LogisticRegression extends ModelTrainer {
       .minimize(target)
       .run(data)
     new LogisticRegressionModel(ps.get(0))
+  }
+
+  override def loadModel(fn: String): Int = {
+    var i = 0
+    var ret = 0
+    var last_weights: Array[Num] = null
+    try {
+      for (line <- Source.fromFile(fn).getLines()) {
+        if (i == 0) last_weights = new Array[Num](line.toInt)
+        else last_weights(i-1) = line.toFloat
+        i += 1
+      }
+    } catch {
+      case _: FileNotFoundException => { ret = -1 }
+    }
+    if (last_weights != null) ps.set(Array.fill(1){new DenseVector(last_weights)})
+    ret
   }
 }

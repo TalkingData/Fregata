@@ -33,4 +33,8 @@ trait ClassificationModel extends SparkModel{
       case ((x,label),model:LClassificationModel) => model.classPredict(x)
     })
   }
+
+  def saveModel(fn: String): Int = {
+    model.saveModel(fn)
+  }
 }

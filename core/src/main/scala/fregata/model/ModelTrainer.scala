@@ -26,4 +26,5 @@ trait ModelTrainer extends Serializable{
 
   def run(data:Iterable[(Vector,Num)]) : M
 
+  def loadModel(fn: String): Int = 0
 }
