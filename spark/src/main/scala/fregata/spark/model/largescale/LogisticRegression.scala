@@ -78,6 +78,19 @@ case class LogisticRegressionModel(weights:CompressedArray) {
       case _: Exception => -1
     }
   }
+
+  def savePlainModel(fn: String, dim: Int): Int = {
+    try {
+      val out = new FileWriter(fn, false)
+      (0 until dim).foreach {
+        i => if (weights(i) != 0d) out.write(i.toString + ":" + weights(i).toString + "\n")
+      }
+      0
+    } catch {
+      case _: Exception => -1
+    }
+
+  }
 }
 
 object LogisticRegression {
