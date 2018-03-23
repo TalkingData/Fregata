@@ -1,11 +1,14 @@
 package fregata.spark.model.largescale
 
+import java.io._
+
 import fregata._
+import org.apache.spark.SparkContext
 import org.apache.spark.rdd.RDD
 
 import scala.collection.mutable
 
-class LogisticRegression {
+class LogisticRegression(lastWeights: CompressedArray) {
   val t = 0.95
   var step = 0.0
   var i = 0.0
@@ -16,7 +19,7 @@ class LogisticRegression {
     var margin = 0d
     indices.indices.foreach{
       i =>
-        margin += weight.getOrElse(indices(i),0.0) * values(i)
+        margin += weight.getOrElse(indices(i), if (lastWeights == null) 0.0 else lastWeights(indices(i))) * values(i)
     }
     val p1 = 1.0 / ( 1.0 + math.exp( - margin ) )
     val p0 = 1 - p1
@@ -32,7 +35,7 @@ class LogisticRegression {
     val delta = 2 * ( p1 - label ) * step
     indices.indices.foreach{
       i =>
-        val w = weight.getOrElse(indices(i),0.0) - delta * values(i)
+        val w = weight.getOrElse(indices(i), if (lastWeights == null) 0.0 else lastWeights(indices(i))) - delta * values(i)
         weight(indices(i)) = w
     }
   }
@@ -65,14 +68,48 @@ case class LogisticRegressionModel(weights:CompressedArray) {
         input -> (asNum(p),asNum(c))
     }
   }
+
+  def saveModel(fn: String): Int = {
+    try {
+      val oos = new ObjectOutputStream(new FileOutputStream(fn))
+      oos.writeObject(weights)
+      0
+    } catch {
+      case _: Exception => -1
+    }
+  }
+
+  def savePlainModel(fn: String, dim: Int): Int = {
+    try {
+      val out = new FileWriter(fn, false)
+      (0 until dim).foreach {
+        i => if (weights(i) != 0d) out.write(i.toString + ":" + weights(i).toString + "\n")
+      }
+      0
+    } catch {
+      case _: Exception => -1
+    }
+
+  }
 }
 
 object LogisticRegression {
 
-  def run(data:RDD[(Array[Long],Array[Num],Num)], binSize : Int = 128, epoch : Int = 1, feature_threshold:Double = 1e-4 ) = {
+  def run(data:RDD[(Array[Long],Array[Num],Num)], binSize : Int = 128, epoch : Int = 1,
+          feature_threshold:Double = 1e-4, lastModelfn: String = null) = {
+    var lastWeights: CompressedArray = null
+    if (lastModelfn != null) {
+      try {
+        val lastModel = new ObjectInputStream(new FileInputStream(lastModelfn))
+        lastWeights = lastModel.asInstanceOf[CompressedArray]
+        data.context.broadcast(lastWeights)
+      } catch {
+        case _: Exception => lastWeights = null
+      }
+    }
     val weights = data.mapPartitionsWithIndex{
       case (idx,it) =>
-        val local = new LogisticRegression()
+        val local = new LogisticRegression(lastWeights)
         local.run(it,epoch)
         local.weight.iterator
     }.filter( _._2.abs > feature_threshold ).map{
